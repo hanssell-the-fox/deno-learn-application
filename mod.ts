@@ -4,8 +4,15 @@ const app = new Application();
 const PORT = 8000;
 
 app.use(async ({ request }, next) => {
-    await next();
-    console.log(`${request.method} ${request.url}`);
+  await next();
+  console.log(`${request.method} ${request.url}`);
+});
+
+app.use(async ({ response }, next) => {
+  const start = Date.now();
+  await next();
+  const delta = Date.now() - start;
+  response.headers.set("X-Response-Time", `${delta}`);
 });
 
 app.use(({ response }) => {
