@@ -3,7 +3,12 @@ import { Application } from "https://deno.land/x/oak@v10.5.1/mod.ts";
 const app = new Application();
 const PORT = 8000;
 
-app.use(({ request, response }) => {
+app.use(async ({ request }, next) => {
+    await next();
+    console.log(`${request.method} ${request.url}`);
+});
+
+app.use(({ response }) => {
   response.body = `
     88888b.  8888b. .d8888b  8888b.  
     888 "88b    "88b88K         "88b 
